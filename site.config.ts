@@ -38,6 +38,9 @@ export default siteConfig({
   // environment variables. see the readme for more info
   isRedisEnabled: false,
 
+  // 【插入这一行】关闭社交预览图生成，解决 1MB 限制报错
+  isSocialImageSupportEnabled: false,
+  
   // map of notion page IDs to URL paths (optional)
   // any pages defined here will override their default URL paths
   // example:
