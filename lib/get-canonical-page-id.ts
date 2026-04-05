@@ -20,10 +20,15 @@ export function getCanonicalPageId(
   if (override) {
     return override
   } else {
-    return (
-      getCanonicalPageIdImpl(pageId, recordMap, {
-        uuid
-      }) ?? undefined
-    )
+    try {
+      // 尝试正常获取漂亮网址
+      const canonicalId = getCanonicalPageIdImpl(pageId, recordMap, { uuid })
+      return canonicalId || cleanPageId
+    } catch (err) {
+      // 【核心修复】如果 notion-utils 因为空格子报错 replaceAll，
+      // 我们直接拦截错误，返回原始的 ID，保证构建不崩溃。
+      console.warn('捕获到属性解析错误，已自动跳过并使用原始ID', err)
+      return cleanPageId
+    }
   }
 }
